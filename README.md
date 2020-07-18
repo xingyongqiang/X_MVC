@@ -8,7 +8,7 @@ X_MVC 1.0
 ## 安装
 
 ~~~
-composer create-project topthink/think tp 6.0.*
+git@github.com:xingyongqiang/X_MVC.git
 ~~~
 
 ## 文档
