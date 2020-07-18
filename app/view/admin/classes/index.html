@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <{include file="public/head.html"}>
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin">
+    <{include file="public/nav.html"}>
+    <!-- 右侧内容 -->
+    <div class="layui-body layui-form">
+        <div class="layui-tab marg0" lay-filter="bodyTab">
+            <div class="layui-tab-content clildFrame">
+                <div class="layui-tab-item layui-show">
+                    <div class="childrenBody">
+                        <div class="layui-card layadmin-header mb10">
+                            <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+                                <a href="/<{$common_info.module}>">后台首页</a><span lay-separator="">/</span>
+                                <a><cite>栏目管理</cite></a>
+                            </div>
+                        </div>
+                        <blockquote class="layui-elem-quote news_search">
+                            <div class="layui-inline">
+                                <a href="/<{$common_info.module}>/<{$common_info.controller}>/add" class="layui-btn">添加栏目</a>
+                            </div>
+                        </blockquote>
+                        <div class="layui-form news_list">
+                            <table class="layui-table">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>分类名称</th>
+                                    <th>栏目地址</th>
+                                    <th style="width:120px;">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody class="news_content">
+
+                                <{if empty($list)==false}>
+                                <{foreach $list as $val}>
+                                <tr>
+                                    <td><{$val.id}></td>
+                                    <td><{$val.name}></td>
+                                    <td>
+                                        <a class="common-pic" href="javascript:;">
+                                            <img style="height:40px;" src="<{$val.icon}>">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="/<{$common_info.module}>/<{$common_info.controller}>/edit/<{$val.id}>" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></a>
+                                        <a href="javascript:;" data="<{$val.id}>" class="layui-btn layui-btn-danger layui-btn-sm btn-del-one" data-id="1"><i class="layui-icon">&#xe640;</i></a>
+                                    </td>
+                                </tr>
+                                <{/foreach}>
+                                <{else}>
+                                    <tr><td colspan="4" style="text-align:center">暂无数据</td></tr>
+                                <{/if}>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="page">
+                            <{$page}>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <{include file="public/foot.html"}>
+</div>
+</body>
+</html>

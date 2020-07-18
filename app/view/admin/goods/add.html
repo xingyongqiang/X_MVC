@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <{include file="public/head.html"}>
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin">
+    <{include file="public/nav.html"}>
+    <!-- 右侧内容 -->
+    <div class="layui-body layui-form">
+        <div class="layui-tab marg0" lay-filter="bodyTab">
+            <div class="layui-tab-content clildFrame">
+                <div class="layui-tab-item layui-show">
+                    <div class="childrenBody">
+                        <div class="layui-card layadmin-header mb10">
+                            <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+                                <a href="/<{$common_info.module}>">后台首页</a>
+                                <a href="/<{$common_info.module}>/<{$common_info.controller}>">商品管理</a>
+                                <a><cite>添加商品</cite></a>
+                            </div>
+                        </div>
+                        <div class="layui-col-md12">
+                            <div class="layui-card">
+                                <div class="layui-card-header">添加商品</div>
+                                <div class="layui-card-body layui-row layui-col-space10">
+                                    <form class="layui-form" action="/admin/goods/goods_post_into" method="post">
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">商品名称</label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="name" placeholder="请填写商品名称" value="" class="layui-input newsName" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">一级分类</label>
+                                                <div class="layui-input-inline">
+                                                    <select name="cate_top_id" id="cate_top_id" class="layui-input" lay-filter="cate_top_id">
+                                                        <option value="0">---请选择一级---</option>
+                                                        <{foreach $role as $val}>
+                                                        <option value="<{$val.id}>"><{$val.name}></option>
+                                                        <{/foreach}>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">二级分类</label>
+                                                <div class="layui-input-inline">
+                                                    <select name="cate_son_id" id='cate_son_id' class="layui-input" msg="请选择二级分类">
+                                                        <option value="0">---请选择二级---</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">商品组图</label>
+                                            <div class="layui-input-block layui-upload">
+                                                <button type="button" class="layui-btn layui-btn-normal" data="1" id="testList">选择多文件</button>
+                                                <button type="button" class="layui-btn" id="testListAction"><i class="layui-icon" data-icon="&#xe681;">&#xe681;</i>开始上传</button>
+                                                <div class="layui-upload-list">
+                                                    <table class="layui-table">
+                                                        <thead>
+                                                        <tr><th>文件名</th>
+                                                            <th>图片</th>
+                                                            <th>状态</th>
+                                                            <th>操作</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="demoList"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">商品简介</label>
+                                            <div class="layui-input-block" style="z-index: 1;">
+                                                <textarea  id="editor" name="info" style="width: 100%;"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <input type="hidden" name="id" value="0"/>
+                                                <button class="layui-btn" type="submit">立即保存</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="<{STATIC_SERVER}>/common/fileuploader.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/static/common/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/static/common/ueditor/ueditor.all.js"> </script>
+    <script>
+        var ue = UE.getEditor('editor');
+        ue.ready(function() {ue.setHeight(240);});
+
+        wdl_delete();
+        layui.use(['form', 'element','upload'], function () {
+            var $ = layui.jquery;
+            var upload = layui.upload;
+            var form = layui.form;
+            form.on('select(cate_top_id)', function (data) {
+                http_request_post("wdl_get_two_cate_list", {id: data.value}, function (res) {
+                    if (res.status) {
+                        var str = "<option value='0'>---请选择二级---</option>";
+                        $.each(res.data, function (k, v) {
+                            str += '<option value="' + v['id'] + '">' + v['name'] + '</option>'
+                        })
+                        $('#cate_son_id').empty();
+                        $('#cate_son_id').append(str);
+                        form.render();
+                    } else {
+                        layer.msg("获取二级信息失败！");
+                    }
+                });
+            });
+
+            var demoListView = $('#demoList');
+            upload.render({
+                elem: '#testList',
+                url: "/<{$common_info.module}>/<{$common_info.controller}>/ajax_upload_images",
+                accept: 'images',
+                acceptMime: 'image/*',
+                multiple: true,
+                auto: false,
+                bindAction: '#testListAction',
+                choose: function (obj) {
+                    var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                    //读取本地文件
+                    obj.preview(function (index, file, result) {
+                        var tr = $(['<tr id="upload-' + index + '"><td>' + file.name + '</td><td><img width="30" src="' + result + '"></td><td>等待</td>'
+                            , '<td><span class="layui-btn layui-btn-xs demo-reload layui-hide">重传</span>'
+                            , '<span class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</span></td></tr>'].join(''));
+                        //单个重传
+                        tr.find('.demo-reload').on('click', function () {
+                            obj.upload(index, file);
+                        });
+                        //删除
+                        tr.find('.demo-delete').on('click', function () {
+                            delete files[index]; //删除对应的文件
+                            tr.remove();
+                            uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                        });
+                        demoListView.append(tr);
+                    });
+                },
+                done: function (res, index, upload) {
+                    console.log(upload);
+                    if (res.status == 1) { //上传成功
+                        var tr = demoListView.find('tr#upload-' + index)
+                        var tds = tr.children();
+                        tds.eq(2).html('<span style="color: #5FB878;">成功</span><input type="hidden" value="' + res.data.full_path + '" name="images[]" />');
+                        tds.eq(3).html('<div class="layui-btn layui-btn-xs wdl-delete">删除</div>');
+                        wdl_delete();
+                        return delete this.files[index]; //删除文件队列已经上传成功的文件
+                    }
+                    this.error(index, upload);
+                },
+                error: function (index, upload) {
+                    var tr = demoListView.find('tr#upload-' + index)
+                    var tds = tr.children();
+                    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                    tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                }
+            });
+        });
+
+        //删除图片
+        function wdl_delete()
+        {
+            $('.wdl-delete').click(function () {
+                $(this).parent().parent().remove();
+            });
+        }
+    </script>
+    <!-- 底部 -->
+    <{include file="public/foot.html"}>
+</div>
+</body>
+</html>

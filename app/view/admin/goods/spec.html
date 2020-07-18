@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <{include file="public/head.html"}>
+</head>
+<body class="layui-layout-body">
+<div id="LAY_app" class="layadmin-tabspage-none">
+
+    <div class="layui-layout layui-layout-admin">
+        <{include file="public/nav.html"}>
+
+        <!-- 主体内容 -->
+        <div class="layui-body" id="LAY_app_body">
+            <div class="layui-tab marg0" lay-filter="bodyTab">
+                <div class="layui-tab-content clildFrame">
+                    <div class="layui-tab-item layui-show">
+                        <div class="childrenBody">
+                            <div class="layui-card layadmin-header mb10">
+                                <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+                                    <a href="/<{$common_info.module}>">后台首页</a>
+                                    <a href="/<{$common_info.module}>/<{$common_info.controller}>">商品管理</a>
+                                    <a><cite>规格管理</cite></a>
+                                </div>
+                            </div>
+                            <blockquote class="layui-elem-quote news_search">
+                                <div class="layui-inline">
+                                    <a href="/admin/goods/spec_add/<{$id}>/" class="layui-btn layui-btn-normal newsAdd_btn">添加规格</a>
+                                </div>
+                            </blockquote>
+                            <div class="layui-form news_list">
+                                <table class="layui-table">
+                                    <thead>
+                                    <tr>
+                                        <th>规格名</th>
+                                        <th>原价</th>
+                                        <th>现价</th>
+                                        <th>图片</th>
+                                        <th>库存</th>
+                                        <th width="100">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="news_content">
+                                    <{if empty($list)==false}>
+                                    <{foreach $list as $val}>
+                                    <tr>
+                                        <td><{$val.spec_name}></td>
+                                        <td>¥<{$val.market_price}></td>
+                                        <td>¥<{$val.shop_price}></td>
+                                        <td width="35">
+                                            <a class="common-pic" href="javascript:;">
+                                                <img style="height:30px;" src="<{$val.spec_img}>">
+                                            </a>
+                                        </td>
+                                        <td class="label-status" data="<{$val.id}>">
+                                           <{$val.spec_num}>
+                                        </td>
+                                        <td>
+                                            <a href="/admin/goods/spec_edit/<{$id}>/<{$val.id}>" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></a>
+                                            <a href="javascript:;" data="<{$val.id}>" class="layui-btn layui-btn-danger layui-btn-sm btn-del-one"><i class="layui-icon">&#xe640;</i></a>
+                                        </td>
+                                    </tr>
+                                    <{/foreach}>
+                                    <{else}>
+                                    <tr>
+                                        <td colspan="6" style="text-align:center">暂无数据</td>
+                                    </tr>
+                                    <{/if}>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 辅助元素，一般用于移动设备下遮罩 -->
+        <div class="layadmin-body-shade" layadmin-event="shade"></div>
+    </div>
+</div>
+<script>
+    var del_url = "wdl_spec_del";
+</script>
+<{include file="public/foot.html"}>
+</body>
+</html>

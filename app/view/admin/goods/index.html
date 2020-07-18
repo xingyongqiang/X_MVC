@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <{include file="public/head.html"}>
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin layadmin-tabspage-none">
+    <{include file="public/nav.html"}>
+    <!-- 右侧内容 -->
+    <div class="layui-body layui-form">
+        <div class="layui-tab marg0" lay-filter="bodyTab">
+            <div class="layui-tab-content clildFrame">
+                <div class="layui-tab-item layui-show">
+                    <div class="childrenBody">
+                        <div class="layui-card layadmin-header mb10">
+                            <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+                                <a href="/<{$common_info.module}>">后台首页</a><span lay-separator="">/</span>
+                                <a><cite>商品管理</cite></a>
+                            </div>
+                        </div>
+                        <blockquote class="layui-elem-quote news_search">
+                            <form action="index" class="layui-form" method="get">
+                                <div class="layui-inline">
+                                    <div class="layui-input-inline">
+                                        <input type="text" class="layui-input search_input" name="keyword" value="<{$keyword}>" placeholder="请输入关键词">
+                                    </div>
+                                    <button class="layui-btn search_btn" type="submit">查询</button>
+                                </div>
+                                <div class="layui-inline">
+                                    <a href="/<{$common_info.module}>/<{$common_info.controller}>/add" class="layui-btn layui-btn-danger audit_btn">添加商品</a>
+                                </div>
+                            </form>
+                        </blockquote>
+                        <div class="layui-form links_list">
+                            <table class="layui-hide" id="test-table-onrow" lay-filter="test-table-onrow"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script type="text/html" id="table-operate-img">
+            <a class="common-pic" lay-event="openImg"><img style="height:30px;width:30px" src="{{ d.img }}"></a>
+        </script>
+        <script type="text/html" id="table-switchTpl">
+            <input type="checkbox" name="status" lay-skin="switch" lay-text="是|否" lay-filter="table-showDemo" data="{{d.is_sale}}" value="{{ d.id }}" {{ d.is_sale == 0 ? 'checked' : '' }}>
+        </script>
+        <script type="text/html" id="table-operate-barDemo">
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="spec"><i class="layui-icon layui-icon-table"></i>规格</a>
+            <a class="layui-btn layui-btn-xs" href="/<{$common_info.module}>/<{$common_info.controller}>/edit/{{d.id}}"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        </script>
+    </div>
+    <!-- 底部 -->
+    <{include file="public/foot.html"}>
+</div>
+<script>
+    layui.use(['table', 'form'], function () {
+        var table = layui.table;
+        var form = layui.form;
+        table.render({
+            elem: '#test-table-onrow',
+            url: "/admin/goods/index_list.html?keyword=<{$keyword}>",
+            cols: [[
+                {field: 'name', title: '商品名称'},
+                {field: 'img', title: '缩略图', toolbar: '#table-operate-img', width: 80},
+                {field: 'cate_top_id', title: '所属分类', width: 120},
+                {field: 'sales', title: '销量', width: 80},
+                {field: 'is_sale', title: '上架', toolbar: '#table-switchTpl', width: 120},
+                {field: 'rate', title: '好评率', width: 80},
+                {field: 'add_time', title: '添加时间', width: 120},
+                {fixed: 'right', title: '操作', toolbar: '#table-operate-barDemo', width: 220}
+            ]],
+            page: true,
+            limits: [15, 30, 45, 60, 75]
+        });
+
+        //监听工具条//
+        table.on('tool(test-table-onrow)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                del(data.id);
+            }
+            if (obj.event === 'openImg') {
+                layui_open_img(data.img);
+            }
+            if (obj.event === 'spec') {
+                location.href = "/admin/goods/spec/" + data.id;
+            }
+        });
+        form.on('switch(table-showDemo)', function(obj){
+            var top = $(this).attr("data");
+            var status = top == 1 ? 0 : 1;
+            http_request_post("goods/wdl_status", {id: this.value, status: status}, function (res) {
+                layer.msg(res.msg, {icon: 1, time: 500}, function () {
+                    location.reload();
+                });
+            });
+        });
+
+    })
+</script>
+</body>
+</html>

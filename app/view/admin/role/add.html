@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<{include file="public/head.html"}>
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin">
+	<{include file="public/nav.html"}>
+	<!-- 右侧内容 -->
+	<div class="layui-body layui-form">
+		<div class="layui-tab marg0" lay-filter="bodyTab">
+			<div class="layui-tab-content clildFrame">
+				<div class="layui-tab-item layui-show">
+					<div class="childrenBody">
+						<div class="layui-card layadmin-header mb10">
+							<div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+								<a href="/<{$common_info.module}>">后台首页</a><span lay-separator="">/</span>
+								<a href="/<{$common_info.module}>/<{$common_info.controller}>">角色管理</a><span lay-separator="">/</span>
+								<a><cite>添加角色</cite></a>
+							</div>
+						</div>
+						<div class="layui-col-md12">
+							<div class="layui-card">
+								<div class="layui-card-header">添加角色</div>
+								<div class="layui-card-body layui-row layui-col-space10">
+								<form class="layui-form" action="" method="post" style="margin-top:20px;">
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">角色名称</label>
+											<div class="layui-input-inline">
+												<input type="text" name="name" placeholder="请填写角色名称" value="" class="layui-input newsName" />
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">角色备注</label>
+											<div class="layui-input-inline">
+												<input type="text" name="remark" placeholder="请填写角色备注" value="" class="layui-input newsName" />
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">是否启用</label>
+											<div class="layui-input-block">
+												<input type="radio" name="status" class="tuijian" value="0" title="禁用">
+												<input type="radio" name="status" class="tuijian" value="1" title="启用" checked>
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-input-block">
+											<button class="layui-btn" type="submit">立即保存</button>
+										</div>
+									</div>
+								</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 底部 -->
+	<{include file="public/foot.html"}>
+</div>
+</body>
+</html>

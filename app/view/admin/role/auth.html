@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<{include file="public/head.html"}>
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin">
+	<{include file="public/nav.html"}>
+	<!-- 右侧内容 -->
+	<div class="layui-body layui-form">
+		<div class="layui-tab marg0" lay-filter="bodyTab">
+			<div class="layui-tab-content clildFrame">
+				<div class="layui-tab-item layui-show">
+					<div class="childrenBody">
+						<div class="layui-card layadmin-header mb10">
+							<div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+								<a href="/<{$common_info.module}>">后台首页</a><span lay-separator="">/</span>
+								<a href="/<{$common_info.module}>/<{$common_info.controller}>">角色管理</a><span lay-separator="">/</span>
+								<a><cite>授权管理</cite></a>
+							</div>
+						</div>
+						<table class="layui-table">
+							<colgroup>
+								<col width="30%">
+								<col width="70%">
+							</colgroup>
+							<thead>
+							<tr>
+								<th>权限类别</th>
+								<th>权限内容</th>
+							</tr>
+							</thead>
+							<tbody>
+							<{foreach $sys_menu as $k to $v}>
+							<tr>
+								<td><strong><{$v.name}></strong></td>
+								<td>
+									<div class="quanxianTag">
+										<{foreach $v["_child"] as $key to $val}>
+										<input type="checkbox" name="id[]" value="<{$key}>" title="<{$val.name}>" <{if in_array($key, explode(",", $res["auth"]))}>checked<{/if}>>
+										<div class="layui-unselect layui-form-checkbox"><span><{$val.name}></span><i class="layui-icon"></i></div>
+										<{/foreach}>
+									</div>
+								</td>
+							</tr>
+							<{/foreach}>
+							</tbody>
+						</table>
+						<div class="layui-form-item" style="text-align: right;">
+							<div class="layui-input-block">
+								<button style="margin:0 5px 0 285px;" class="layui-btn" type="submit" onclick="go_auth()">立即提交</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 底部 -->
+	<{include file="public/foot.html"}>
+</div>
+</body>
+</html>

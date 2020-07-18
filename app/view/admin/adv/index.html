@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <{include file="public/head.html"}>
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin">
+    <{include file="public/nav.html"}>
+    <!-- 右侧内容 -->
+    <div class="layui-body layui-form">
+        <div class="layui-tab marg0" lay-filter="bodyTab">
+            <div class="layui-tab-content clildFrame">
+                <div class="layui-tab-item layui-show">
+                    <div class="childrenBody">
+                        <div class="layui-card layadmin-header mb10">
+                            <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+                                <a href="/<{$common_info.module}>">后台首页</a><span lay-separator="">/</span>
+                                <a><cite>广告管理</cite></a>
+                            </div>
+                        </div>
+                        <blockquote class="layui-elem-quote news_search">
+                            <div class="layui-inline">
+                                <a href="/<{$common_info.module}>/<{$common_info.controller}>/add" style="background-color:#5FB878" class="layui-btn layui-btn-normal newsAdd_btn">添加广告</a>
+                            </div>
+                            <div class="layui-inline">
+                                <a class="layui-btn layui-btn-danger audit_btn  btn-del-all">批量删除</a>
+                            </div>
+                        </blockquote>
+                        <div class="layui-form links_list">
+                            <table class="layui-table">
+                                <colgroup>
+                                    <col width="50">
+                                    <col width="3%">
+                                    <col>
+                                    <col>
+                                    <col>
+                                    <col>
+                                    <col>
+                                    <col width="13%">
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose" id="allChoose">
+                                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon"></i></div>
+                                    </th>
+                                    <th style="text-align:left;">ID</th>
+                                    <th>广告名称</th>
+                                    <th>广告图</th>
+                                    <th>链接地址</th>
+                                    <th>状态</th>
+                                    <th>添加时间</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody class="links_content">
+                                <{if empty($list) == false}>
+                                <{foreach $list as $val}>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" value="<{$val.id}>" name="id[]" lay-skin="primary" lay-filter="choose">
+                                        <div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon"></i></div>
+                                    </td>
+                                    <td align="left"><{$val.id}></td>
+                                    <td><{$val.name}></td>
+                                    <td>
+                                        <a class="common-pic" href="javascript:;">
+                                            <img style="height:40px;" src="<{$val.img}>">
+                                        </a>
+                                    </td>
+                                    <td><a style="color:#1E9FFF;" target="_blank" href="<{$val.url}>"><{$val.url}></a></td>
+                                    <td class="label-status" data="<{$val.id}>">
+                                        <input type="checkbox" name="show" lay-skin="switch" lay-text="是|否" value="<{$val.status}>" <{if $val.status == 1}>checked<{/if}> />
+                                        <div class="layui-unselect layui-form-switch" lay-skin="_switch"><em>是</em><i></i></div>
+                                    </td>
+                                    <td><{date('Y-m-d',strtotime($val["addtime"]))}></td>
+                                    <td>
+                                        <a href="/<{$common_info.module}>/<{$common_info.controller}>/edit/<{$val.id}>" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></a>
+                                        <a href="javascript:;" data="<{$val.id}>" class="layui-btn layui-btn-danger layui-btn-sm btn-del-one"><i class="layui-icon">&#xe640;</i></a>
+                                    </td>
+                                </tr>
+                                <{/foreach}>
+                                <{else}>
+                                <td colspan="7" style="text-align:center">暂无数据</td>
+                                <{/if}>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="page">
+                            <{$page}>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <{include file="public/foot.html"}>
+</div>
+</body>
+</html>

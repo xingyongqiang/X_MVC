@@ -1,0 +1,35 @@
+<div class="layui-footer footer">
+    <p>加载耗时 <{$runtime}>ms</p>
+</div>
+
+<script>
+    layui.use(['form','element'], function(){
+        var form = layui.form;
+        var element = layui.element;
+        form.on('checkbox(allChoose)', function(data){
+            var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+            child.each(function(index, item){
+                item.checked = data.elem.checked;
+            });
+            form.render('checkbox');
+        });
+    });
+
+    $('.common-pic').on('click', function(){
+        var img=$(this).find("img").attr("src");
+        layer.open({
+            title:"图片预览",
+            type: 1,
+            area: ['600px'],
+            shadeClose: true, //点击遮罩关闭
+            content: '<div style="padding:20px;"><img src="'+img+'" width="560" /></div>'
+        });
+    });
+
+    //全局设置
+    var module = "<{$common_info.module}>";
+    var controller = "<{$common_info.controller}>";
+    var action = "<{$common_info.action}>";
+    $('.layui-this').parent('dl').parent('li').addClass('layui-nav-itemed');
+</script>
+<script src="<{STATIC_SERVER}>/common/base.js?<{time()}>"></script>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<{include file="public/head.html"}>
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin">
+	<{include file="public/nav.html"}>
+	<!-- 右侧内容 -->
+	<div class="layui-body layui-form">
+		<div class="layui-tab marg0" lay-filter="bodyTab">
+			<div class="layui-tab-content clildFrame">
+				<div class="layui-tab-item layui-show">
+					<div class="childrenBody">
+						<div class="layui-card layadmin-header mb10">
+							<div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+								<a href="/<{$common_info.module}>">后台首页</a><span lay-separator="">/</span>
+								<a href="/<{$common_info.module}>/<{$common_info.controller}>">广告管理</a><span lay-separator="">/</span>
+								<a><cite>添加广告</cite></a>
+							</div>
+						</div>
+						<div class="layui-col-md12">
+							<div class="layui-card">
+								<div class="layui-card-header">添加链接</div>
+								<div class="layui-card-body layui-row layui-col-space10">
+								<form class="layui-form" action="" method="post" style="margin-top:20px;">
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">广告名称</label>
+											<div class="layui-input-inline">
+												<input type="text" name="name" placeholder="请填写广告名称" value="" class="layui-input newsName" />
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">广告类别</label>
+										<div class="layui-input-inline">
+											<select name="type" class="newsLook" style="width:150px;" lay-filter="browseLook" >
+												<option value="0">选择广告类型</option>
+												<option value="1">首页轮播图</option>
+											</select>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">链接地址</label>
+											<div class="layui-input-inline">
+												<input type="text" name="url" placeholder="请填写链接地址" value="" class="layui-input newsName" />
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">广告图片 </label>
+										<div class="layui-input-block">
+											<button type="button" class="btn btn-primary btn-sm layui-btn" style="float:left;" id="jq_upload"><i class="layui-icon" data-icon="&#xe64a;">&#xe64a;</i>上传封面</button>
+											<a style="float:left; margin-left:10px;display:none;" id="jq_showpic" class="gsPic common-pic" href="javascript:;" target="_blank" rel="popover" data-toggle="hover" data-title="专辑封面" data-content=""><img title="点击查看源图" style="width:38px; height:38px;" src=""></a>
+										</div>
+									</div>
+									<input type="hidden" name="img" value="">
+									<div class="layui-form-item">
+										<div class="layui-inline">
+											<label class="layui-form-label">是否启用</label>
+											<div class="layui-input-block">
+												<input type="radio" name="status" class="tuijian" value="0" title="禁用">
+												<input type="radio" name="status" class="tuijian" value="1" title="启用" checked>
+											</div>
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<div class="layui-input-block">
+											<button class="layui-btn" type="submit">立即保存</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="<{STATIC_SERVER}>/common/fileuploader.js"></script>
+	<script>
+		$(function(){
+			//上传图片
+			var uploader = new qq.FileUploaderBasic({
+				button: document.getElementById('jq_upload'),
+				multiple: false,
+				action: "/<{$common_info.module}>/<{$common_info.controller}>/ajax_upload_images",
+				inputName: 'img',
+				forceMultipart: true,
+				onComplete: function(id, fileName, result){
+					if(result.status == 1){
+						$('#jq_showpic').attr("data-content", "<img src='"+result.data.full_path+"'>");
+						$('#jq_showpic').find("img").attr("src", result.data.full_path);
+						$('#jq_showpic').attr("href", result.data.full_path);
+						$('input[name="img"]').val(result.data.full_path);
+						$('#jq_showpic').show();
+					} else {
+						layer.msg(result.msg);
+						return false;
+					}
+				}
+			});
+		})
+	</script>
+	<!-- 底部 -->
+	<{include file="public/foot.html"}>
+</div>
+</body>
+</html>

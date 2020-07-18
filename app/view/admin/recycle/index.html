@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<{include file="public/head.html"}>
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin">
+	<{include file="public/nav.html"}>
+	<!-- 右侧内容 -->
+	<div class="layui-body layui-form">
+		<div class="layui-tab marg0" lay-filter="bodyTab">
+			<div class="layui-tab-content clildFrame">
+				<div class="layui-tab-item layui-show">
+					<div class="childrenBody">
+						<div class="layui-card layadmin-header mb10">
+							<div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+								<a href="/<{$common_info.module}>">后台首页</a><span lay-separator="">/</span>
+								<a><cite>回收站</cite></a>
+							</div>
+						</div>
+						<blockquote class="layui-elem-quote news_search">
+							<form action="" method="get">
+								<div class="layui-inline">
+									<a class="layui-btn layui-btn-normal btn-back-all">批量还原</a>
+								</div>
+								<div class="layui-inline">
+									<a class="layui-btn layui-btn-danger" onclick="get_del_all();">清空回收站</a>
+								</div>
+							</form>
+						</blockquote>
+						<div class="layui-form news_list">
+							<table class="layui-table">
+								<thead>
+								<tr>
+									<th width="25"><input type="checkbox" name="check-all" lay-skin="primary" lay-filter="allChoose"></th>
+									<th>标题</th>
+									<th>栏目</th>
+									<th>状态</th>
+									<th>浏览</th>
+									<th>添加时间</th>
+									<th width="100">操作</th>
+								</tr>
+								</thead>
+								<tbody class="news_content">
+								<{if empty($list)==false}>
+								<{foreach $list as $val}>
+								<tr>
+									<td>
+										<input type="checkbox" lay-skin="primary" lay-filter="choose"  value="<{$val.id}>" name="id[]" />
+										<div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon"></i></div>
+									</td>
+									<td><{$val.title}></td>
+									<td><{$res_c[$val["cid"]]}></td>
+									<td style="text-align:center;"><{if $val.status == 0}>正常<{elseif $val.status == 1}>推荐<{else}>置顶<{/if}></td>
+									<td style="text-align:center;"><{$val.hits}></td>
+									<td><{date('Y-m-d',strtotime($val["addtime"]))}></td>
+									<td>
+										<a href="javascript:;" data="<{$val.id}>" class="layui-btn layui-btn-sm btn-back-one"><i class="layui-icon">&#xe669;</i></a>
+										<a href="javascript:;" data="<{$val.id}>" class="layui-btn layui-btn-danger layui-btn-sm btn-del-one"><i class="layui-icon">&#xe640;</i></a>
+									</td>
+								</tr>
+								<{/foreach}>
+								<{else}>
+								<tr><td colspan="9" style="text-align:center">暂无数据</td></tr>
+								<{/if}>
+								</tbody>
+							</table>
+						</div>
+						<div id="page">
+							<{$page}>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 底部 -->
+	<{include file="public/foot.html"}>
+</div>
+<script>
+	//清空回收站
+	function get_del_all(id) {
+		layer.confirm('您确定要清空回收站？', {icon: 3}, function () {
+			var url = "/admin/recycle/del_all";
+			layer.closeAll();
+			http_request_post(url, {id:id}, function(res) {
+				layer.msg(res.msg, {icon: 1,time: 800}, function(){location.reload();});
+			});
+		})
+	}
+</script>
+</body>
+</html>

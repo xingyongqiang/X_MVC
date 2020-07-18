@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<{include file="public/head.html"}>
+	<script type="text/javascript" charset="utf-8" src="/static/common/ueditor/ueditor.config.js"></script>
+	<script type="text/javascript" charset="utf-8" src="/static/common/ueditor/ueditor.all.js"> </script>
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin">
+	<{include file="public/nav.html"}>
+	<!-- 右侧内容 -->
+	<div class="layui-body layui-form">
+		<div class="layui-tab marg0" lay-filter="bodyTab">
+			<div class="layui-tab-content clildFrame">
+				<div class="layui-tab-item layui-show">
+					<div class="childrenBody">
+						<div class="layui-card layadmin-header mb10">
+							<div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+								<a href="/<{$common_info.module}>">后台首页</a><span lay-separator="">/</span>
+								<a href="/<{$common_info.module}>/<{$common_info.controller}>">文章管理</a><span lay-separator="">/</span>
+								<a><cite>编辑文章</cite></a>
+							</div>
+						</div>
+						<div class="layui-col-md12">
+							<div class="layui-card">
+								<div class="layui-card-header">编辑文章</div>
+								<div class="layui-card-body layui-row layui-col-space10">
+									<form class="layui-form" action="" method="post" style="margin-top:20px;">
+										<div class="layui-form-item">
+											<div class="layui-inline">
+												<label class="layui-form-label">文章标题</label>
+												<div class="layui-input-inline">
+													<input type="text" name="title" placeholder="请填写文章标题" value="<{$res.title}>" class="layui-input" />
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">文章排序</label>
+												<div class="layui-input-inline">
+													<input type="text" name="sorts" value="<{$res.sorts}>" class="layui-input" />
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">短链接</label>
+												<div class="layui-input-inline">
+													<input type="text" name="nid" placeholder="请填写短链接" value="<{$res.nid}>" class="layui-input" />
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">来源</label>
+												<div class="layui-input-inline">
+													<input type="text" name="source" placeholder="请填写文章来源" value="<{$res.source}>"  class="layui-input" />
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">作者</label>
+												<div class="layui-input-inline">
+													<input type="text" name="author" placeholder="请填写文章作者" value="<{$res.author}>"  class="layui-input" />
+												</div>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<div class="layui-inline">
+												<label class="layui-form-label">SEO标题</label>
+												<div class="layui-input-inline">
+													<input type="text" name="stitle" placeholder="请填写SEO标题" value="<{$res.stitle}>" class="layui-input" />
+												</div>
+											</div>
+											<div class="layui-inline">
+												<label class="layui-form-label">SEO关键词</label>
+												<div class="layui-input-inline">
+													<input type="text" name="skey" placeholder="请填写关键词" value="<{$res.skey}>" style="width:515px;" class="layui-input" />
+												</div>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">SEO描述</label>
+											<div class="layui-input-block">
+												<textarea class="layui-textarea" name="sdesc" placeholder="请填写请填写描述"><{$res.sdesc}></textarea>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">栏目封面 </label>
+											<div class="layui-input-block">
+												<button type="button" class="btn btn-primary btn-sm layui-btn" style="float:left;" id="jq_upload"><i class="layui-icon" data-icon="&#xe64a;">&#xe64a;</i>上传封面</button>
+												<a style="float:left; margin-left:10px;<{if $res.img == ''}>display:none;<{/if}>" id="jq_showpic" class="gsPic common-pic" href="javascript:;" target="_blank" rel="popover" data-toggle="hover" data-title="专辑封面" data-content="<img src='<{$res.img}>'>"><img title="点击查看源图" style="width:30px; height:30px;" src="<{$res.img}>"></a>
+											</div>
+										</div>
+										<input type="hidden" name="img" value="<{$res.img}>">
+										<div class="layui-form-item">
+											<label class="layui-form-label">文章简介</label>
+											<div class="layui-input-block">
+												<textarea class="layui-textarea" name="intro" placeholder="请填写文章简介"><{$res.intro}></textarea>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">详细内容</label>
+											<div class="layui-input-block">
+												<textarea class="layui-textarea" name="content" id="content" placeholder="请填写详细内容"><{$res.content}></textarea>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<div class="layui-inline">
+												<label class="layui-form-label">是否启用</label>
+												<div class="layui-input-block">
+													<input type="radio" name="status" class="tuijian" value="0" title="正常" <{if $res.status == 0}>checked<{/if}>>
+													<input type="radio" name="status" class="tuijian" value="1" title="推荐" <{if $res.status == 1}>checked<{/if}>>
+													<input type="radio" name="status" class="tuijian" value="2" title="置顶" <{if $res.status == 2}>checked<{/if}>>
+												</div>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<div class="layui-input-block">
+												<button class="layui-btn" type="submit">立即保存</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!--<script src="<{STATIC_SERVER}>/common/kindeditor/kindeditor.js"></script>-->
+	<script src="<{STATIC_SERVER}>/common/fileuploader.js"></script>
+	<script>
+		$(function(){
+			//编辑器
+			UE.getEditor('content');
+//			KindEditor.create('#content', {
+//				uploadJson : '/<{$common_info.module}>/<{$common_info.controller}>/ajax_editor_upload',
+//				fileManagerJson : '/<{$common_info.module}>/<{$common_info.controller}>/ajax_editor_manager',
+//				allowFileManager : true,
+//				allowwith:true,
+//				afterBlur: function(){this.sync();}
+//			});
+			//上传图片
+			var uploader = new qq.FileUploaderBasic({
+				button: document.getElementById('jq_upload'),
+				multiple: false,
+				action: "/<{$common_info.module}>/<{$common_info.controller}>/ajax_upload_images",
+				inputName: 'img',
+				forceMultipart: true,
+				onComplete: function(id, fileName, result){
+					if(result.status == 1){
+						$('#jq_showpic').attr("data-content", "<img src='"+result.data.full_path+"'>");
+						$('#jq_showpic').find("img").attr("src", result.data.full_path);
+						//$('#jq_showpic').attr("href", result.data.full_path);
+						$('input[name="img"]').val(result.data.full_path);
+						$('#jq_showpic').show();
+					} else {
+						layer.msg(result.msg);
+						return false;
+					}
+				}
+			});
+		})
+	</script>
+	<!-- 底部 -->
+	<{include file="public/foot.html"}>
+</div>
+</div>
+</body>
+</html>

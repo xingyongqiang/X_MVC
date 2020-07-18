@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <{include file="public/head.html"}>
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin">
+    <{include file="public/nav.html"}>
+    <!-- 右侧内容 -->
+    <div class="layui-body layui-form">
+        <div class="layui-tab marg0" lay-filter="bodyTab">
+            <div class="layui-tab-content clildFrame">
+                <div class="layui-tab-item layui-show">
+                    <div class="childrenBody">
+                        <div class="layui-card layadmin-header mb10">
+                            <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+                                <a href="/<{$common_info.module}>">后台首页</a>
+                                <a href="/<{$common_info.module}>/<{$common_info.controller}>">商品管理</a>
+                                <a><cite>添加规格</cite></a>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6">
+                            <div class="layui-card">
+                                <div class="layui-card-header">添加规格</div>
+                                <div class="layui-card-body layui-row layui-col-space10">
+                                    <form class="layui-form" action="/admin/goods/spec_post_into" method="post">
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">规格名称</label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="spec_name" placeholder="请填写规格名称" value="" class="layui-input newsName" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">原价</label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="market_price" placeholder="请填写原价" value="" class="layui-input newsName" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">现价</label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="shop_price" placeholder="请填写现价" value="" class="layui-input newsName" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">产品数量</label>
+                                                <div class="layui-input-inline">
+                                                    <input type="text" name="spec_num" placeholder="请填写产品数量" value="" class="layui-input newsName" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">规格图片</label>
+                                            <div class="layui-input-block">
+                                                <button type="button" class="btn btn-primary btn-sm layui-btn" style="float:left;" id="jq_upload"><i class="layui-icon" data-icon="&#xe64a;">&#xe64a;</i>上传规格图片</button>
+                                                <a style="float:left; margin-left:10px;display:none;" id="jq_showpic" class="gsPic common-pic" href="javascript:;" target="_blank" rel="popover" data-toggle="hover" data-title="专辑封面" data-content=""><img title="点击查看源图" style="width:38px; height:38px;" src=""></a>
+                                            </div>
+                                        </div>
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <input type="hidden" name="id" value="0"/>
+                                                <input type="hidden" name="gid" value="<{$gid}>"/>
+                                                <input type="hidden" name="spec_img" value="">
+                                                <button class="layui-btn" type="submit">立即保存</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="<{STATIC_SERVER}>/common/fileuploader.js"></script>
+    <script>
+        $(function(){
+            //上传图片
+            var uploader = new qq.FileUploaderBasic({
+                button: document.getElementById('jq_upload'),
+                multiple: false,
+                action: "/<{$common_info.module}>/<{$common_info.controller}>/ajax_upload_images",
+                inputName: 'img',
+                forceMultipart: true,
+                onComplete: function(id, fileName, result){
+                    if(result.status == 1){
+                        $('#jq_showpic').attr("data-content", "<img src='"+result.data.full_path+"'>");
+                        $('#jq_showpic').find("img").attr("src", result.data.full_path);
+                        $('#jq_showpic').attr("href", result.data.full_path);
+                        $('input[name="spec_img"]').val(result.data.full_path);
+                        $('#jq_showpic').show();
+                    } else {
+                        layer.msg(result.msg);
+                        return false;
+                    }
+                }
+            });
+        })
+    </script>
+    <!-- 底部 -->
+    <{include file="public/foot.html"}>
+</div>
+</body>
+</html>

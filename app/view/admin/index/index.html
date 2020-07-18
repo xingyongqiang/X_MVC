@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <{include file="public/head.html"}>
+</head>
+<body class="layui-layout-body">
+<div class="llayui-layout layui-layout-admin">
+    <{include file="public/nav.html"}>
+    <!-- 右侧内容 -->
+    <div class="layui-body layui-form">
+        <div class="layui-tab marg0" lay-filter="bodyTab">
+            <div class="layui-tab-content clildFrame">
+                <div class="layui-tab-item layui-show">
+                    <div class="childrenBody">
+                        <div class="layui-card layadmin-header mb10">
+                            <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+                                <a><cite>后台首页</cite></a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="layui-col-sm12 mb10">
+                                <div class="layui-card">
+                                    <div class="layui-card-header">
+                                        系统参数
+                                    </div>
+                                    <div class="layui-card-body">
+                                        <div class="layui-row">
+                                            <div class="layui-col-sm12">
+                                                <table class="layui-table">
+                                                    <colgroup>
+                                                        <col width="150">
+                                                        <col>
+                                                    </colgroup>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td width="20%" style="text-align:right;">系统版本：</td>
+                                                        <td>V1.2</td>
+                                                        <td width="20%" style="text-align:right;">服务器域名/IP：</td>
+                                                        <td><{$system_info.server_domain}></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:right;">服务器操作系统：</td>
+                                                        <td><{$system_info.server_os}></td>
+                                                        <td style="text-align:right;">Web服务器：</td>
+                                                        <td><{$system_info.web_server}></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:right;">PHP版本：</td>
+                                                        <td><{$system_info.php_version}></td>
+                                                        <td style="text-align:right;">MySQL版本：</td>
+                                                        <td><{$system_info.mysql_version}></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:right;">文件上传限制：</td>
+                                                        <td><{$system_info.upload_max_filesize}></td>
+                                                        <td style="text-align:right;">执行时间限制：</td>
+                                                        <td><{$system_info.max_execution_time}></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:right;">安全模式：</td>
+                                                        <td><{$system_info.safe_mode}></td>
+                                                        <td style="text-align:right;">Zlib支持：</td>
+                                                        <td><{$system_info.zlib}></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="text-align:right;">CURL：支持：</td>
+                                                        <td><{$system_info.curl}></td>
+                                                        <td style="text-align:right;">时区设置：</td>
+                                                        <td><{$system_info.timezone}></td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layui-col-sm12">
+                                <div class="layui-card">
+                                <div class="layui-card-header">最新文章<i class="iconfont icon-new1"></i></div>
+                                <table class="layui-table" lay-skin="line">
+                                    <colgroup>
+                                        <col>
+                                        <col width="110">
+                                    </colgroup>
+                                    <tbody class="hot_news">
+                                    <{if empty($list)==false}>
+                                    <{foreach $list as $val}>
+                                    <tr>
+                                        <td align="left"><{$val.title}></td>
+                                        <td><{date("Y-m-d",strtotime($val['addtime']))}></td>
+                                    </tr>
+                                    <{/foreach}>
+                                    <{else}>
+                                    <tr>
+                                        <td align="left">暂无记录！</td>
+                                        <td></td>
+                                    </tr>
+                                    <{/if}>
+                                    </tbody>
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 底部 -->
+    <{include file="public/foot.html"}>
+</div>
+</body>
+</html>

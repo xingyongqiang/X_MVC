@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<{include file="public/head.html"}>
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin">
+	<{include file="public/nav.html"}>
+	<!-- 右侧内容 -->
+	<div class="layui-body layui-form">
+		<div class="layui-tab marg0" lay-filter="bodyTab">
+			<div class="layui-tab-content clildFrame">
+				<div class="layui-tab-item layui-show">
+					<div class="childrenBody">
+						<div class="layui-card layadmin-header mb10">
+							<div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+								<a href="/<{$common_info.module}>">后台首页</a><span lay-separator="">/</span>
+								<a><cite>文章管理</cite></a>
+							</div>
+						</div>
+						<blockquote class="layui-elem-quote news_search">
+                            <form action="" method="get">
+								<div class="layui-inline">
+									<div class="layui-input-inline" style="width:70px;">
+										<select name="status" class="newsLook" lay-filter="browseLook" >
+											<option value="99">全部</option>
+											<option value="0">正常</option>
+											<option value="1">推荐</option>
+											<option value="2">置顶</option>
+										</select>
+									</div>
+								</div>
+								<div class="layui-inline">
+									<div class="layui-input-inline">
+										<input type="text" name="keyword" value="<{if $keyword != '0'}><{$keyword}><{/if}>" placeholder="请输入关键字" class="layui-input search_input">
+									</div>
+									<button class="layui-btn search_btn" type="submit">查询</button>
+								</div>
+								<div class="layui-inline">
+									<a href="/<{$common_info.module}>/<{$common_info.controller}>/add"
+									   class="layui-btn layui-btn-normal newsAdd_btn">添加文章</a>
+								</div>
+								<div class="layui-inline">
+									<a class="layui-btn layui-btn-danger audit_btn btn-del-all">批量删除</a>
+								</div>
+                            </form>
+						</blockquote>
+						<div class="layui-form news_list">
+							<table class="layui-table">
+								<thead>
+								<tr>
+									<th width="25"><input type="checkbox" name="check-all" lay-skin="primary" lay-filter="allChoose"></th>
+									<th>标题</th>
+									<th>状态</th>
+									<th>浏览</th>
+									<th>添加时间</th>
+									<th width="100">操作</th>
+								</tr>
+								</thead>
+								<tbody class="news_content">
+								<{if empty($list)==false}>
+								<{foreach $list as $val}>
+								<tr>
+									<td>
+										<input type="checkbox" lay-skin="primary" lay-filter="choose"  value="<{$val.id}>" name="id[]" />
+										<div class="layui-unselect layui-form-checkbox" lay-skin="primary"><i class="layui-icon"></i></div>
+									</td>
+									<td><{$val.title}></td>
+									<td style="text-align:center;"><{if $val.status == 0}>正常<{elseif $val.status == 1}>推荐<{else}>置顶<{/if}></td>
+									<td style="text-align:center;"><{$val.hits}></td>
+									<td><{time_format($val["addtime"],3)}></td>
+									<td>
+										<a href="/<{$common_info.module}>/<{$common_info.controller}>/edit/<{$val.id}>" class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i></a>
+										<a href="javascript:;" data="<{$val.id}>" class="layui-btn layui-btn-danger layui-btn-sm btn-del-one"><i class="layui-icon">&#xe640;</i></a>
+									</td>
+								</tr>
+								<{/foreach}>
+								<{else}>
+								<tr><td colspan="9" style="text-align:center">暂无数据</td></tr>
+								<{/if}>
+								</tbody>
+							</table>
+						</div>
+						<div id="page">
+                            <{$page}>
+                        </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 底部 -->
+	<{include file="public/foot.html"}>
+</div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<{include file="public/head.html"}>
+</head>
+<body class="main_body">
+<div class="layui-layout layui-layout-admin">
+	<{include file="public/nav.html"}>
+	<!-- 右侧内容 -->
+	<div class="layui-body layui-form">
+		<div class="layui-tab marg0" lay-filter="bodyTab">
+			<div class="layui-tab-content clildFrame">
+				<div class="layui-tab-item layui-show">
+					<div class="childrenBody">
+
+						<div class="layui-card layadmin-header mb10">
+							<div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+								<a href="/<{$common_info.module}>">后台首页</a><span lay-separator="">/</span>
+								<a><cite>站点设置</cite></a>
+							</div>
+						</div>
+						<form class="layui-form" action="" method="post" style="margin-top:20px;">
+							<table class="layui-table">
+								<colgroup>
+									<col width="20%">
+									<col width="50%">
+									<col>
+								</colgroup>
+								<thead>
+								<tr>
+									<th>参数说明</th>
+									<th>参数值</th>
+									<th>变量名</th>
+								</tr>
+								</thead>
+								<tbody>
+								<{foreach $list as $val}>
+								<tr>
+									<td><{$val.remark}></td>
+									<td><input type="text" class="layui-input cmsName" name="<{$val.name}>" placeholder="请输入<{$val.remark}>"  value="<{$val.data}>" /></td>
+									<td><{$val.name}></td>
+								</tr>
+								<{/foreach}>
+								</tbody>
+							</table>
+							<div class="layui-form-item">
+								<div class="layui-input-inline">
+									<button class="layui-btn" data-toggle="modal" data-target="#upAlbumTips" type="submit">设置修改</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 底部 -->
+	<script src="<{STATIC_SERVER}>/common/fileuploader.js"></script>
+	<script>
+		$(function(){
+			//上传图片
+			var uploader = new qq.FileUploaderBasic({
+				button: document.getElementById('jq_upload'),
+				multiple: false,
+				action: "/<{$common_info.module}>/<{$common_info.controller}>/ajax_upload_images",
+				inputName: 'img',
+				forceMultipart: true,
+				onComplete: function(id, fileName, result){
+					if(result.status == 1){
+						$('#jq_showpic').attr("data-content", "<img src='"+result.data.full_path+"'>");
+						$('#jq_showpic').find("img").attr("src", result.data.full_path);
+						$('#jq_showpic').attr("href", result.data.full_path);
+						$('input[name="sys_logo"]').val(result.data.full_path);
+						$('#jq_showpic').show();
+					} else {
+						layer.msg(result.msg);return false;
+					}
+				}
+			});
+		})
+	</script>
+	<{include file="public/foot.html"}>
+</div>
+</body>
+</html>

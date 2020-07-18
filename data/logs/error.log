@@ -1,0 +1,6 @@
+[16-Oct-2018 17:42:49 Asia/Shanghai] PHP Parse error:  syntax error, unexpected ';' in F:\phpStudy\PHPTutorial\WWW\xingyongqiang\app\controller\home\Cases.php on line 82
+[22-Oct-2018 14:22:06 Asia/Shanghai] PHP Parse error:  syntax error, unexpected ']', expecting ',' or ';' in F:\phpStudy\PHPTutorial\WWW\yidaoyushu\data\runtime\home\3d85df0f88adbcb8927a39c60b3c0196.php on line 40
+[22-Oct-2019 11:19:01 Asia/Shanghai] PHP Parse error:  syntax error, unexpected '}' in D:\phpStudy\PHPTutorial\WWW\xiaochengxu.com\app\controller\api\Index.php on line 43
+[22-Oct-2019 13:53:16 Asia/Shanghai] PHP Fatal error:  Cannot use object of type mysqli_result as array in D:\phpStudy\PHPTutorial\WWW\xiaochengxu.com\app\library\Database.php on line 101
+[22-Oct-2019 13:53:55 Asia/Shanghai] PHP Fatal error:  Cannot use object of type mysqli_result as array in D:\phpStudy\PHPTutorial\WWW\xiaochengxu.com\app\library\Database.php on line 101
+[22-Oct-2019 13:53:58 Asia/Shanghai] PHP Fatal error:  Cannot use object of type mysqli_result as array in D:\phpStudy\PHPTutorial\WWW\xiaochengxu.com\app\library\Database.php on line 101
